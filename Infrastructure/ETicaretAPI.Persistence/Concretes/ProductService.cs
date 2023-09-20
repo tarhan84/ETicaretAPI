@@ -5,9 +5,11 @@ using System.Text;
 using System.Threading.Tasks;
 using ETicaretAPI.Application.Abstractions;
 using ETicaretAPI.Domain.Entities;
+using ETicaretAPI.Persistence.Contexts;
 
 namespace ETicaretAPI.Persistence.Concretes
 {
+    
     public class ProductService : IProductService
     {
         public List<Product> GetProducts()

@@ -1,5 +1,6 @@
 ﻿using ETicaretAPI.Application.Abstractions;
 using Microsoft.AspNetCore.Mvc;
+using ETicaretAPI.Persistence.Contexts;
 
 namespace ETicaretAPI.API.Controllers
 {
