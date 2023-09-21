@@ -3,13 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using ETicaretAPI.Domain.Entities.Common;
-using Microsoft.EntityFrameworkCore;
+using ETicaretAPI.Domain.Entities;
 
 namespace ETicaretAPI.Application.Repositories
 {
-    public interface IRepository<T> where T : BaseEntity
+    public interface IProductWriteRepository : IWriteRepository<Product>
     {
-        DbSet<T> Table { get; }
     }
 }

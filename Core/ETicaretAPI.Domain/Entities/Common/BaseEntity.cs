@@ -9,6 +9,6 @@ namespace ETicaretAPI.Domain.Entities.Common
     public class BaseEntity
     {
         public Guid Id { get; set; }
-        public DateTime CreateDateTime { get; set; }
+        public DateTime CreateDateTime { get; set; } = DateTime.UtcNow;
     }
 }
