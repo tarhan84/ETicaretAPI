@@ -22,15 +22,23 @@ namespace ETicaretAPI.Persistence.Repositories
 
         public DbSet<T> Table => _context.Set<T>();
 
-        public IQueryable<T> GetAll() => Table;
+        public IQueryable<T> GetAll(bool tracking = true)
+        {
+            var query = Table.AsQueryable();
+            if (!tracking)
+            {
+                query = query.AsNoTracking();
+            }
+            return query;
+        }
 
-        public async Task<T> GetByIdAsync(string id) 
+        public async Task<T> GetByIdAsync(string id, bool tracking = true) 
             => await Table.FindAsync(Guid.Parse(id));
 
-        public async Task<T> GetSingleAsync(Expression<Func<T, bool>> expression) 
+        public async Task<T> GetSingleAsync(Expression<Func<T, bool>> expression, bool tracking = true) 
             => await Table.FirstOrDefaultAsync(expression);
 
-        public IQueryable<T> GetWhere(Expression<Func<T, bool>> expression) 
+        public IQueryable<T> GetWhere(Expression<Func<T, bool>> expression, bool tracking = true) 
             => Table.Where(expression);
     }
 }
