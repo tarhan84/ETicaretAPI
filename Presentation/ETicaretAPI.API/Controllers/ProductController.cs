@@ -33,7 +33,7 @@ namespace ETicaretAPI.API.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Post(CreateProductModel productModel)
+        public async Task<IActionResult> Post([FromBody] CreateProductModel productModel)
         {
             await _writeRepository.AddAsync(new()
             {
@@ -46,7 +46,7 @@ namespace ETicaretAPI.API.Controllers
         }
 
         [HttpPut]
-        public async Task<IActionResult> Put(UpdateProductModel productModel)
+        public async Task<IActionResult> Put([FromBody] UpdateProductModel productModel)
         {
             Product product = await _readRepository.GetByIdAsync(productModel.Id);
             product.Stock = productModel.Stock;
@@ -59,9 +59,9 @@ namespace ETicaretAPI.API.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(string id)
         {
-            _writeRepository.Remove(id);
+            bool deleted = _writeRepository.Remove(id);
             await _writeRepository.SaveAsync();
-            return Ok();
+            return Ok(deleted);
         }
     }
 }

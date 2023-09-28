@@ -37,7 +37,7 @@ namespace ETicaretAPI.Persistence.Repositories
         public bool Remove(string id)
         {
             T entity = Table.FirstOrDefault(data => data.Id == Guid.Parse(id));
-            return Remove(entity);
+            return entity == null ? false : Remove(entity);
         }
 
         public bool Remove(T entity)
