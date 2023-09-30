@@ -45,6 +45,7 @@ namespace ETicaretAPI.API.Controllers
             return Ok(productModel);
         }
 
+
         [HttpPut]
         public async Task<IActionResult> Put([FromBody] UpdateProductModel productModel)
         {
