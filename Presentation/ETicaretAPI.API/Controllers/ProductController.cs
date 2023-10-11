@@ -22,6 +22,7 @@ namespace ETicaretAPI.API.Controllers
         public IActionResult GetProducts()
         {
             var list = _readRepository.GetAll();
+            list = list.OrderByDescending(item => item.CreateDateTime);
             return (Ok(list));
         }
 
