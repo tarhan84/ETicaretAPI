@@ -3,6 +3,7 @@ using ETicaretAPI.Application.Repositories;
 using ETicaretAPI.Domain.Entities;
 using ETicaretAPI.Application.Models.Products;
 using Microsoft.VisualBasic;
+using ETicaretAPI.Application.Services;
 
 namespace ETicaretAPI.API.Controllers
 {
@@ -11,17 +12,17 @@ namespace ETicaretAPI.API.Controllers
     {
         private readonly IProductReadRepository _readRepository;
         private readonly IProductWriteRepository _writeRepository;
-        private readonly IWebHostEnvironment _webHostEnvironment;
+        private readonly IFileService _fileService;
 
 
         public ProductController(
             IProductReadRepository readRepository, 
             IProductWriteRepository writeRepository,
-            IWebHostEnvironment webHostEnvironment)
+            IFileService fileService)
         {
             _readRepository = readRepository;
             _writeRepository = writeRepository;
-            _webHostEnvironment = webHostEnvironment;
+            _fileService = fileService;
         }
 
         [HttpGet]
@@ -76,25 +77,8 @@ namespace ETicaretAPI.API.Controllers
         [Route("[action]")]
         public async Task<IActionResult> Upload()
         {
-            string uploadPath = Path.Combine(_webHostEnvironment.WebRootPath, "resource\\product-images");
-
-            if (!Directory.Exists(uploadPath))
-            {
-                Directory.CreateDirectory(uploadPath);
-            }
-            int index = 0;
-            foreach(IFormFile file in Request.Form.Files)
-            {
-                DateTime now = DateTime.Now;
-                string key = now.ToString($"yyyyMMddHHmmssfff{index}");
-                string fullPath = Path.Combine(uploadPath,$"{key}_{file.FileName}");
-                index++;
-
-                using FileStream fileStream = new(fullPath, FileMode.Create, FileAccess.Write, FileShare.None, 1024 * 1024, useAsync: false);
-                await file.CopyToAsync(fileStream);
-                await fileStream.FlushAsync();
-
-            }
+            string uploadPath = "resource\\product-images";
+            await _fileService.UploadAsync(uploadPath, Request.Form.Files);
             return Ok();
         }
     }

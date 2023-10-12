@@ -1,0 +1,27 @@
+[
+  {
+    "name": "AllowedHosts",
+    "value": "*",
+    "slotSetting": false
+  },
+  {
+    "name": "ConnectionStrings__PostgreSQL",
+    "value": "User ID=postgres;Password=123456;Host=localhost;Port=5432;Database=ETicaretAPIDb;",
+    "slotSetting": false
+  },
+  {
+    "name": "ConnectionStrings__SqlServer",
+    "value": "Server=104.247.167.18\\MSSQLSERVER2019;Database=tarhanst_eticaret;User Id=tarhanst_eticaret; Password=Eticaret_2121; TrustServerCertificate=True",
+    "slotSetting": false
+  },
+  {
+    "name": "Logging__LogLevel__Default",
+    "value": "Information",
+    "slotSetting": false
+  },
+  {
+    "name": "Logging__LogLevel__Microsoft.AspNetCore",
+    "value": "Warning",
+    "slotSetting": false
+  }
+]

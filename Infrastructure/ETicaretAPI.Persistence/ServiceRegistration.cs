@@ -1,9 +1,11 @@
 ﻿using ETicaretAPI.Application.Repositories;
+using ETicaretAPI.Application.Services;
 using ETicaretAPI.Persistence.Contexts;
 using ETicaretAPI.Persistence.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using ETicaretAPI.Infrastructure.Services;
 
 namespace ETicaretAPI.Persistence
 {
@@ -19,6 +21,7 @@ namespace ETicaretAPI.Persistence
             services.AddScoped<ICustomerWriteRepository, CustomerWriteRepository>();
             services.AddScoped<IOrderReadRepository, OrderReadRepository>();
             services.AddScoped<IOrderWriteRepository, OrderWriteRepository>();
+            services.AddScoped<IFileService, FileService>();
 
 
         }

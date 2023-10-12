@@ -26,6 +26,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\Core\ETicaretAPI.Application\ETicaretAPI.Application.csproj" />
+    <ProjectReference Include="..\ETicaretAPI.Infrastructure\ETicaretAPI.Infrastructure.csproj" />
   </ItemGroup>
 
   <ItemGroup>
