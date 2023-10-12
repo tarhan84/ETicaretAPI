@@ -2,6 +2,7 @@
 using ETicaretAPI.Application.Repositories;
 using ETicaretAPI.Domain.Entities;
 using ETicaretAPI.Application.Models.Products;
+using Microsoft.VisualBasic;
 
 namespace ETicaretAPI.API.Controllers
 {
@@ -10,12 +11,17 @@ namespace ETicaretAPI.API.Controllers
     {
         private readonly IProductReadRepository _readRepository;
         private readonly IProductWriteRepository _writeRepository;
+        private readonly IWebHostEnvironment _webHostEnvironment;
 
 
-        public ProductController(IProductReadRepository readRepository, IProductWriteRepository writeRepository)
+        public ProductController(
+            IProductReadRepository readRepository, 
+            IProductWriteRepository writeRepository,
+            IWebHostEnvironment webHostEnvironment)
         {
             _readRepository = readRepository;
             _writeRepository = writeRepository;
+            _webHostEnvironment = webHostEnvironment;
         }
 
         [HttpGet]
@@ -64,6 +70,32 @@ namespace ETicaretAPI.API.Controllers
             bool deleted = _writeRepository.Remove(id);
             await _writeRepository.SaveAsync();
             return Ok(deleted);
+        }
+
+        [HttpPost]
+        [Route("[action]")]
+        public async Task<IActionResult> Upload()
+        {
+            string uploadPath = Path.Combine(_webHostEnvironment.WebRootPath, "resource\\product-images");
+
+            if (!Directory.Exists(uploadPath))
+            {
+                Directory.CreateDirectory(uploadPath);
+            }
+            int index = 0;
+            foreach(IFormFile file in Request.Form.Files)
+            {
+                DateTime now = DateTime.Now;
+                string key = now.ToString($"yyyyMMddHHmmssfff{index}");
+                string fullPath = Path.Combine(uploadPath,$"{key}_{file.FileName}");
+                index++;
+
+                using FileStream fileStream = new(fullPath, FileMode.Create, FileAccess.Write, FileShare.None, 1024 * 1024, useAsync: false);
+                await file.CopyToAsync(fileStream);
+                await fileStream.FlushAsync();
+
+            }
+            return Ok();
         }
     }
 }
